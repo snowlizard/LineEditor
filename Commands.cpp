@@ -13,17 +13,14 @@ using namespace std;
 class Commands {
 
 	public:
-		void type(vector<string>, int);
-		void findStr(vector<string>, string);
+		void type(vector<string>&, int);
+		void findStr(vector<string>&, string);
+		void insert(vector<string>&, int);
+
 };
 
 
-
-
-
-
-
-void Commands::findStr(vector<string> list, string word)
+void Commands::findStr(vector<string>& list, string word)
 {
 	// counts number of times word is used can be used to replace word as well
 	// as locating a word 
@@ -53,7 +50,7 @@ void Commands::findStr(vector<string> list, string word)
 	std::cout << wordCount << word << endl;
 }
 
-void Commands::type(vector<string> list, int lines)
+void Commands::type(vector<string>& list, int lines)
 {
 	/** prints X lines before current line and prints 
 		the current line last.
@@ -65,5 +62,29 @@ void Commands::type(vector<string> list, int lines)
 	for (; linesToPrint < listSize; linesToPrint++)
 	{
 		std::cout << list[linesToPrint] << endl;
+	}
+}
+
+void Commands::insert(vector<string>& list, int lines)
+{
+	/* Inset X lines to file vector with the current line being the last
+		Inserted line  
+		NOTE: newSize integer is size of list w/ addition of lines minus 1 
+		to equal number of lines being added. */
+	
+
+	string currentLine = list.back();
+
+	int listSize = list.size();
+	int newSize = listSize + lines;
+
+	for (; listSize < newSize; listSize++) {
+
+		if ( listSize == newSize - 1 ) {
+			list.push_back(currentLine);
+		}
+		else
+			list.push_back("");
+
 	}
 }
