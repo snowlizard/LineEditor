@@ -10,6 +10,8 @@
 #include <fstream>
 #include <cstring>
 
+#include "Commands.h";
+
 using namespace std;
 
 void menu();

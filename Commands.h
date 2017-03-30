@@ -19,6 +19,24 @@ class Commands {
 
 };
 
+int main() {
+	
+	vector<string> test{ "this is line one", "this is line two", "this is line threee" };
+
+	Commands cmd;
+
+	for (string i : test) {
+		std::cout << i << endl;
+	}
+
+	cmd.insert(test, 0);
+
+	for (string i : test) {
+		std::cout << i << endl;
+	}
+	
+	return 0;
+}
 
 void Commands::findStr(vector<string>& list, string word)
 {
