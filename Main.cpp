@@ -10,7 +10,7 @@
 #include <fstream>
 #include <cstring>
 
-#include "Commands.h";
+#include "commands.h";
 
 using namespace std;
 
@@ -25,6 +25,9 @@ void displayFile(vector<string>);
 
 int main()
 {
+	/* Currently testing parts of program using Main() all statements here do not reflect 
+		final program */
+	
 	fstream file;
 	string line;
 	vector<string>fileVector;
@@ -32,10 +35,26 @@ int main()
 	while (!file.is_open()) {
 		getFile(file);
 	}
-	
-	fileVector = storeFile(file);
-	//displayFile(fileVector);
 
+	Commands cmd;
+	cmd.currentIndex = 0;
+
+	fileVector = storeFile(file);
+	cmd.list = fileVector;
+	
+	//cmd.move(fileVector, 2);
+	//cmd.move(fileVector, 4);
+
+
+	//std::cout << "new index =" << cmd.currentIndex << endl;
+
+	//cmd.replace(fileVector, 5);
+
+	displayFile(cmd.list);
+
+	cmd.del(4);
+
+	displayFile(cmd.list);
 	menu();
 
 	return 0;
@@ -86,14 +105,14 @@ fstream createFile(string filename)
 
 void getFile(fstream& file)
 {
-	char userInput; 
+	char userInput;
 	string filename;
 
 	std::cout << "would you like to open a file or create a new file? [ O / C ]\n";
 	cin >> userInput;
 
 	while (toupper(userInput) != 'O' && toupper(userInput) != 'C')
-	{ 
+	{
 		std::cout << "Please enter 'O' to open file or 'C' : to create new file.\n";
 		cin >> userInput;
 	}
@@ -130,6 +149,7 @@ void getFile(fstream& file)
 	}
 }
 
+
 vector<string> storeFile(fstream &filename)
 {
 	// return vector<string> of file contents.
@@ -162,93 +182,18 @@ void displayFile(vector<string> file)
 
 	while (counter < fileSize)
 	{
-		std::cout << file[counter] << endl;
+		std::cout << counter << ". " <<  file[counter] << endl;
 		counter++;
 	}
 }
 
 void menu()
 {	// initialize menu variables 
-	int userInput;
 
-	const int MENU_SIZE = 13;
 
-	string menuWords[MENU_SIZE] = { "1. substitute",
-		"2. copy",
-		"3. locate",
-		"4. delete",
-		"5. move",
-		"6. print",
-		"7. insert",
-		"8. type",
-		"9. paste",
-		"10. replace",
-		"11. open file",
-		"12. new file",
-		"13. quit" };
-
-	// ask user what he/she would like to do
-	std::cout << "What would you like to do? [ enter number ]\n";
-
-	// display menu 
-	for (int i = 0; i < MENU_SIZE; i++)
-	{
-		std::cout << menuWords[i] << endl;
-	}
-	// get user input
-	std::cout << ": ";
-	std::cin >> userInput;
-
-	// input invalidation
-	if (userInput < 0 || userInput > MENU_SIZE) {
-		do {
-			std::cout << "Incorrect value entered. Try again.\n";
-			std::cin >> userInput;
-		} while (userInput < 0 || userInput > MENU_SIZE);
-	}
-
-	switch (userInput)
-	{
-	case 1:
-		// sub
-		break;
-	case 2:
-		// copy
-		break;
-	case 3:
-		//locate
-		break;
-	case 4:
-		// delete
-		break;
-	case 5:
-		// move
-		break;
-	case 6:
-		//print
-		break;
-	case 7:
-		// insert
-		break;
-	case 8:
-		//type
-		break;
-	case 9:
-		// paste
-		break;
-	case 10:
-		// replace
-		break;
-	case 11:
-		// open file
-		break;
-	case 12:
-		// new file
-		break;
-	case 13:
-		// quit
-		break;
-	}
 
 
 }
+
+
+
