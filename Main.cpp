@@ -1,6 +1,3 @@
-// ConsoleApplication1.cpp : Defines the entry point for the console application.
-//
-
 #include <iostream>
 #include <string>
 #include <vector>
@@ -10,7 +7,8 @@
 #include <fstream>
 #include <cstring>
 
-#include "commands.h";
+#include "commands.h"
+
 
 using namespace std;
 
@@ -32,30 +30,15 @@ int main()
 	string line;
 	vector<string>fileVector;
 
-	while (!file.is_open()) {
-		getFile(file);
-	}
+	getFile(file);
+
 
 	Commands cmd;
+
 	cmd.currentIndex = 0;
 
 	fileVector = storeFile(file);
 	cmd.list = fileVector;
-	
-	//cmd.move(fileVector, 2);
-	//cmd.move(fileVector, 4);
-
-
-	//std::cout << "new index =" << cmd.currentIndex << endl;
-
-	//cmd.replace(fileVector, 5);
-
-	displayFile(cmd.list);
-
-	cmd.del(4);
-
-	displayFile(cmd.list);
-	menu();
 
 	return 0;
 }
@@ -105,48 +88,20 @@ fstream createFile(string filename)
 
 void getFile(fstream& file)
 {
-	char userInput;
 	string filename;
 
-	std::cout << "would you like to open a file or create a new file? [ O / C ]\n";
-	cin >> userInput;
+	std::cout << "Enter the name of the file you want to open.\n";
+	std::cout << "if the file does not exist it will be created.\n";
 
-	while (toupper(userInput) != 'O' && toupper(userInput) != 'C')
+	std::cin >> filename;
+
+	while (!checkExtension(filename))
 	{
-		std::cout << "Please enter 'O' to open file or 'C' : to create new file.\n";
-		cin >> userInput;
-	}
-
-	if (toupper(userInput) == 'C') {
-		std::cout << "Enter name of file you want to create.\n";
+		std::cout << "filename must end in file extension .txt\n";
 		std::cin >> filename;
-
-		while (!checkExtension(filename))
-		{
-			std::cout << "filename must in with file extension .txt\n";
-			std::cin >> filename;
-		}
-		file = createFile(filename);
 	}
 
-	else if (toupper(userInput) == 'O')
-	{
-		std::cout << "Enter name of file you want to open.\n";
-		std::cin >> filename;
-
-		while (!checkExtension(filename))
-		{
-			std::cout << "filename must end with file extension .txt\n";
-			std::cin >> filename;
-		}
-
-		//fstream file;
-		file.open(filename);
-
-		if (!file.is_open()) {
-			std::cout << "file does not exist.\n";
-		}
-	}
+	file.open(filename, ios::in | ios::out);
 }
 
 

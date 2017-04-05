@@ -1,10 +1,3 @@
-#pragma once
-
-//#define "commands.h";
-
-// LineEditorTesting.cpp : Defines the entry point for the console application.
-//
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -16,21 +9,26 @@ using namespace std;
 
 class Commands {
 
-public:
-	int currentIndex; // <-- set current index main function of program
+	public:
+		/* CLASS VARIABLES */
 
-	vector<string> list;
+		int currentIndex; 	
+		vector<string> list; 
+		
+		vector<string>tempList;
+
+
+		/* CLASS FUNCTIONS */
 	
-	void type( int );
-	void findStr( string );
-	void insert( int );
+		void type( int );
+		void findStr( string );
+		void insert( int );
 
-	void move( int );
-	void replace( int );
-	void del( int );
+		void move( int );
+		void replace( int );
+		void del( int );
 
-
-	
+		void copy( int );
 
 };
 
@@ -68,8 +66,8 @@ void Commands::findStr( string word )
 void Commands::type( int lines )
 {
 	/** prints X lines before current line and prints
-	the current line last.
-	**/
+	the current line last.	**/
+
 	int listSize = list.size();
 
 	int linesToPrint = listSize - lines;
@@ -83,9 +81,7 @@ void Commands::type( int lines )
 void Commands::insert( int lines )
 {
 	/* Inset X lines to file vector with the current line being the last
-	Inserted line
-	NOTE: newSize integer is size of list w/ addition of lines minus 1
-	to equal number of lines being added. */
+	Inserted line */
 
 
 	string currentLine = list.back();
@@ -109,8 +105,9 @@ void Commands::move( int numLines )
 	/* Moves the Current line X lines and prints X lines */
 	
 	int newIndex = currentIndex + numLines;
+	int listSize = list.size();
 
-	if (newIndex < 0 || newIndex > list.size())
+	if (newIndex < 0 || newIndex > listSize)
 	{
 		std::cout << "ERROR! Index out of bounds, No changes were made.\n";
 	}
@@ -155,19 +152,27 @@ void Commands::replace( int lines )
 void Commands::del( int lines )
 {
 	/* Deletes X lines including the current line. */
-	
-	int totalDeleted = currentIndex + lines;
+	int listSize = list.size();
 
-	if (currentIndex < 0 || currentIndex > list.size())
+	if (currentIndex < 0 || currentIndex > listSize)
 	{
 		std::cout << "ERROR! Index out of bounds, No changes were made.\n";
 	}
 	else
 	{
+
+		
+
 		for (int index = 0; index < lines; index++)
 		{
 			list.erase(list.begin() + currentIndex);
 		}
 		
 	}
+}
+
+void Commands::copy(int lines)
+{
+	
+
 }
