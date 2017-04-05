@@ -12,7 +12,7 @@
 
 using namespace std;
 
-void menu();
+void getCmd(string, string&, int&);
 
 bool checkExtension(string);
 fstream createFile(string);
@@ -39,6 +39,16 @@ int main()
 
 	fileVector = storeFile(file);
 	cmd.list = fileVector;
+
+	// got word working need to work in digit
+
+	string mycmd = "sub 1";
+	string userInput;
+	int userInt;
+
+	getCmd(mycmd, userInput, userInt);
+
+	std::cout << userInput << endl << userInt << endl;
 
 	return 0;
 }
@@ -142,13 +152,41 @@ void displayFile(vector<string> file)
 	}
 }
 
-void menu()
-{	// initialize menu variables 
+void getCmd(string line, string& userCmd, int& userInt)
+{
+	/* Splits string into a word and number */
 
+	// current int limit is 0-9
 
+	const int lineSize = line.length();
+	int space = 0;
+	
+	int tempInt;
 
+	char *lineArray = new char[lineSize];
 
+	for (int i = 0; i < lineSize; i++)
+	{
+		*(lineArray + i) = line[i];
+
+		if (isalpha(*(lineArray + i)) && space != 1)
+		{
+			userCmd += *(lineArray + i);
+		}
+
+		else if (isdigit(*(lineArray + i)) && space != 2)
+		{
+
+			tempInt = atoi((lineArray + i));
+			userInt = tempInt;
+		}
+
+		else if ( isspace(*(lineArray + i)) )
+			space++;
+	}
+
+	delete lineArray;
+	lineArray = nullptr;
 }
-
 
 
