@@ -35,14 +35,14 @@ int main()
 
 	Commands cmd;
 
-	cmd.currentIndex = 0;
+	cmd.setCurrentIndex(0);
 
 	fileVector = storeFile(file);
-	cmd.list = fileVector;
+	cmd.setList(fileVector);
 
 	// got word working need to work in digit
 
-	string mycmd = "sub 1";
+	string mycmd = "sub 11";
 	string userInput;
 	int userInt;
 
