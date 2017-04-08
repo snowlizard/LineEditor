@@ -73,8 +73,9 @@ void Commands::insert(int lines)
 	/* Inset X lines to file vector with the current line being the last
 	Inserted line */
 
-	string currentLine = list.back();
-	
+	string currentLine = list[currentIndex];
+
+
 	for ( int i = 0; i < lines; i++ ) {
 
 		if ( i == lines - 1) {
