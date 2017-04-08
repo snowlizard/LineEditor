@@ -12,7 +12,7 @@
 
 using namespace std;
 
-void getCmd(string, string&, int&);
+void getCmd(string, string&, string&, int&);
 
 bool checkExtension(string);
 fstream createFile(string);
@@ -40,13 +40,12 @@ int main()
 	fileVector = storeFile(file);
 	cmd.setList(fileVector);
 
-	// got word working need to work in digit
 
-	string mycmd = "sub 11";
-	string userInput;
+	string mycmd = "sub 100";
+	string userInput, userWord;
 	int userInt;
 
-	getCmd(mycmd, userInput, userInt);
+	getCmd(mycmd, userInput,userWord, userInt);
 
 	std::cout << userInput << endl << userInt << endl;
 
@@ -83,21 +82,11 @@ bool checkExtension(string filename)
 		return false;
 }
 
-fstream createFile(string filename)
-{
-	fstream file;
-
-	file.open(filename);
-
-	if (!file.is_open()) {
-		file.open(filename, fstream::out);
-	}
-
-	return file;
-}
 
 void getFile(fstream& file)
 {
+	/* gets file name from user and opens or creates file */
+
 	string filename;
 
 	std::cout << "Enter the name of the file you want to open.\n";
@@ -152,15 +141,18 @@ void displayFile(vector<string> file)
 	}
 }
 
-void getCmd(string line, string& userCmd, int& userInt)
-{
-	/* Splits string into a word and number */
 
-	// current int limit is 0-9
+// maybe rename function? allow to get two words for fucntion man ex: man sub
+void getCmd(string line, string& userCmd, string& userWord  , int& userInt)
+{
+	/* Splits string into a word and number or word and word  */
+
+	// maybe limit user to a max number of lines?
 
 	const int lineSize = line.length();
 	int space = 0;
 	
+	string tempStr;
 	int tempInt;
 
 	char *lineArray = new char[lineSize];
@@ -168,23 +160,35 @@ void getCmd(string line, string& userCmd, int& userInt)
 	for (int i = 0; i < lineSize; i++)
 	{
 		*(lineArray + i) = line[i];
-
+		
+		// get first word
 		if (isalpha(*(lineArray + i)) && space != 1)
 		{
 			userCmd += *(lineArray + i);
 		}
-
+		// get number of lines
 		else if (isdigit(*(lineArray + i)) && space != 2)
 		{
 
-			tempInt = atoi((lineArray + i));
-			userInt = tempInt;
+			tempStr += *( lineArray + i ) ;
 		}
 
+		// get second word if number not entered
+		else if (isalpha(*(lineArray + i)) && space == 1 && space != 2)
+		{
+			userWord += *(lineArray + i);
+		}
+		
+		// count spaces in string
 		else if ( isspace(*(lineArray + i)) )
 			space++;
 	}
 
+	
+
+	tempInt = atoi(tempStr.c_str());
+	userInt = tempInt;
+	
 	delete lineArray;
 	lineArray = nullptr;
 }

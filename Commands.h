@@ -10,15 +10,15 @@ using namespace std;
 class Commands {
 	private:
 		int currentIndex;
+		int listSize = list.size();
+
 		vector<string> list;
+		vector<string> tempList;
 
 	public:
-		/* CLASS VARIABLES */
 
 		void setCurrentIndex( int );
 		void setList( vector<string> ); 
-
-		/* CLASS FUNCTIONS */
 	
 		void type( int );
 		void findStr( string );
@@ -29,6 +29,7 @@ class Commands {
 		void del( int );
 
 		void copy( int );
+		void paste();
 
 };
 

@@ -26,10 +26,9 @@ void Commands::findStr( string word)
 	// counts number of times word is used can be used to replace word as well
 	// as locating a word 
 
-	int VectorSize = list.size();
 	int wordCount = 0;
 
-	for (int index = 0; index < VectorSize; index++)
+	for (int index = 0; index < listSize ; index++)
 	{
 		string tempStr = list[index].c_str();
 		int strSize = tempStr.length();
@@ -56,8 +55,6 @@ void Commands::type(int lines)
 	/** prints X lines before current line and prints
 	the current line last.	**/
 
-	int listSize = list.size();
-
 	int linesToPrint = listSize - lines;
 
 	for (; linesToPrint < listSize; linesToPrint++)
@@ -74,7 +71,6 @@ void Commands::insert(int lines)
 
 	string currentLine = list.back();
 
-	int listSize = list.size();
 	int newSize = listSize + lines;
 
 	for (; listSize < newSize; listSize++) {
@@ -93,7 +89,6 @@ void Commands::move(int numLines)
 	/* Moves the Current line X lines and prints X lines */
 
 	int newIndex = currentIndex + numLines;
-	int listSize = list.size();
 
 	if (newIndex < 0 || newIndex > listSize)
 	{
@@ -118,7 +113,6 @@ void Commands::replace(int lines)
 	/* Replaces the next X lines including current line
 	with empty lines. */
 
-	int listSize = list.size();
 	int newIndex = currentIndex + lines;
 
 	if (newIndex < 0 || newIndex > listSize)
@@ -140,7 +134,6 @@ void Commands::replace(int lines)
 void Commands::del(int lines)
 {
 	/* Deletes X lines including the current line. */
-	int listSize = list.size();
 
 	if (currentIndex < 0 || currentIndex > listSize)
 	{
@@ -148,9 +141,6 @@ void Commands::del(int lines)
 	}
 	else
 	{
-
-
-
 		for (int index = 0; index < lines; index++)
 		{
 			list.erase(list.begin() + currentIndex);
@@ -160,7 +150,28 @@ void Commands::del(int lines)
 }
 
 void Commands::copy(int lines)
-{
+{	
+	/* Copy X next lines to temporary list */
 
+	// if tempList is not empty, erase its contents
+	if ( !tempList.empty() )
+	{
+		tempList.clear();
+	}
+
+	else
+	{
+		for (int i = 0; i < lines; i++)
+		{
+			// !!! NEED TO WORK ON THIS 
+			//string temp = list[currentIndex + i];
+			//tempList[i].push_back(temp);
+		}
+	}
+}
+
+
+void Commands::paste()
+{
 
 }
