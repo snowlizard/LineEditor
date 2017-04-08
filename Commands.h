@@ -11,6 +11,7 @@ class Commands {
 	private:
 		int currentIndex;
 		int listSize = list.size();
+		int tempSize = tempList.size();
 
 		vector<string> list;
 		vector<string> tempList;
@@ -20,6 +21,8 @@ class Commands {
 		void setCurrentIndex( int );
 		void setList( vector<string> ); 
 	
+		vector<string> getList();
+
 		void type( int );
 		void findStr( string );
 		void insert( int );

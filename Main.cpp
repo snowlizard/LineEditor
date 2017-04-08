@@ -35,12 +35,18 @@ int main()
 
 	Commands cmd;
 
-	cmd.setCurrentIndex(0);
+	cmd.setCurrentIndex(6);
 
 	fileVector = storeFile(file);
 	cmd.setList(fileVector);
 
+	cmd.insert(5);
 
+	vector<string> myList = cmd.getList();
+
+	displayFile(myList);
+
+	/*
 	string mycmd = "sub 100";
 	string userInput, userWord;
 	int userInt;
@@ -48,7 +54,7 @@ int main()
 	getCmd(mycmd, userInput,userWord, userInt);
 
 	std::cout << userInput << endl << userInt << endl;
-
+	**/
 	return 0;
 }
 

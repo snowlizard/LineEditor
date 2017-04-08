@@ -20,6 +20,11 @@ void Commands::setList( vector<string> vec)
 	list = vec;
 }
 
+vector<string> Commands::getList()
+{
+	return list;
+}
+
 
 void Commands::findStr( string word)
 {
@@ -68,18 +73,15 @@ void Commands::insert(int lines)
 	/* Inset X lines to file vector with the current line being the last
 	Inserted line */
 
-
 	string currentLine = list.back();
+	
+	for ( int i = 0; i < lines; i++ ) {
 
-	int newSize = listSize + lines;
-
-	for (; listSize < newSize; listSize++) {
-
-		if (listSize == newSize - 1) {
-			list.push_back(currentLine);
+		if ( i == lines - 1) {
+			list.insert(list.begin() + currentIndex + i, currentLine);
 		}
 		else
-			list.push_back("");
+			list.insert( list.begin() + currentIndex + i, "" );
 
 	}
 }
@@ -163,15 +165,26 @@ void Commands::copy(int lines)
 	{
 		for (int i = 0; i < lines; i++)
 		{
-			// !!! NEED TO WORK ON THIS 
-			//string temp = list[currentIndex + i];
-			//tempList[i].push_back(temp);
+			
+			string temp = list[currentIndex + i];
+			tempList.push_back(temp);
 		}
 	}
+
 }
 
 
 void Commands::paste()
 {
+	/* Paste tempList to List ... inserts them at current line 
+	   sets currentLine to last line pasted */
+	
+	int i = 0;
 
+	for ( ; i < tempSize; i++ )
+	{
+		list.insert( list.begin() + currentIndex + i, tempList[i] );
+	}
+
+	currentIndex = currentIndex + i;
 }
