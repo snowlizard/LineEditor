@@ -32,17 +32,14 @@ int main()
 
 	getFile(file);
 
-
-	Commands cmd;
-
-	cmd.setCurrentIndex(6);
-
 	fileVector = storeFile(file);
-	cmd.setList(fileVector);
-
-	cmd.insert(5);
+	
+	Commands cmd(fileVector, 10);
 
 	vector<string> myList = cmd.getList();
+
+	//cmd.del(10);
+	cmd.insert(10);
 
 	displayFile(myList);
 

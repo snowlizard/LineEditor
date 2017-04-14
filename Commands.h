@@ -4,22 +4,26 @@
 
 #include <vector>
 #include <string>
+
 using namespace std;
 
 
 class Commands {
+
+	
+
 	private:
 		int currentIndex;
-		int listSize = list.size();
+		int listSize;
+
 		int tempSize = tempList.size();
 
 		vector<string> list;
 		vector<string> tempList;
-
+	
 	public:
-
-		void setCurrentIndex( int );
-		void setList( vector<string> ); 
+		
+		Commands::Commands(vector<string>, int);
 	
 		vector<string> getList();
 
@@ -34,6 +38,7 @@ class Commands {
 		void copy( int );
 		void paste();
 
+		void savefile(fstream&);
 };
 
 #endif // !COMMANDS_H

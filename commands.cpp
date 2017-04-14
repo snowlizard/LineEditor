@@ -10,15 +10,17 @@
 
 using namespace std;
 
-void Commands::setCurrentIndex(int index)
+// changes list but changes aren't being made to vector 
+// being sent out side of class maybe make static?
+
+Commands::Commands(vector<string> vec, int index)
 {
 	currentIndex = index;
+	list = vec;
+	listSize = vec.size();
+
 }
 
-void Commands::setList( vector<string> vec)
-{
-	list = vec;
-}
 
 vector<string> Commands::getList()
 {
@@ -26,7 +28,7 @@ vector<string> Commands::getList()
 }
 
 
-void Commands::findStr( string word)
+void Commands::findStr( string word )
 {
 	// counts number of times word is used can be used to replace word as well
 	// as locating a word 
@@ -121,7 +123,6 @@ void Commands::replace(int lines)
 	if (newIndex < 0 || newIndex > listSize)
 	{
 		std::cout << "ERROR! Index out of bounds, No changes were made.\n";
-		std::cout << newIndex << currentIndex << lines << endl << listSize;
 	}
 
 	else
@@ -140,13 +141,17 @@ void Commands::del(int lines)
 
 	if (currentIndex < 0 || currentIndex > listSize)
 	{
+		std::cout << currentIndex << endl << listSize << endl;
 		std::cout << "ERROR! Index out of bounds, No changes were made.\n";
 	}
 	else
 	{
+
+		std::cout << listSize << endl;
 		for (int index = 0; index < lines; index++)
 		{
 			list.erase(list.begin() + currentIndex);
+			std::cout << list[currentIndex + index] << endl;
 		}
 
 	}
@@ -188,4 +193,9 @@ void Commands::paste()
 	}
 
 	currentIndex = currentIndex + i;
+}
+
+void Commands::savefile(fstream& file)
+{
+
 }
