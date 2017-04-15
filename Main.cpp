@@ -13,6 +13,8 @@
 using namespace std;
 
 void getCmd(string, string&, string&, int&);
+void runCmd(string&, string&, int&);
+
 
 bool checkExtension(string);
 fstream createFile(string);
@@ -36,22 +38,30 @@ int main()
 	
 	Commands cmd(fileVector, 10);
 
+	
+
+	//cmd.displayFile();
+
+	cmd.del(10);
 	vector<string> myList = cmd.getList();
 
-	//cmd.del(10);
-	cmd.insert(10);
+	//cmd.insert(10);
 
-	displayFile(myList);
+	//cmd.displayFile();
 
-	/*
-	string mycmd = "sub 100";
+	//displayFile(myList);
+
+	
+	string mycmd = "sub 10";
 	string userInput, userWord;
 	int userInt;
 
 	getCmd(mycmd, userInput,userWord, userInt);
 
-	std::cout << userInput << endl << userInt << endl;
-	**/
+	std::cout << userInput <<  userInt << endl;
+	
+	runCmd(userInput, userWord, userInt);
+
 	return 0;
 }
 
@@ -197,3 +207,15 @@ void getCmd(string line, string& userCmd, string& userWord  , int& userInt)
 }
 
 
+void runCmd(string& userInput, string& userWord, int& userInt)
+{
+	if (strcmp(userInput.c_str(), "sub"))
+	{
+		std::cout << "hello this workd\n";
+	}
+	
+	else if (userInt == 10)
+	{
+		std::cout << "userInt worked\n";
+	}
+}

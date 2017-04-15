@@ -13,12 +13,12 @@ class Commands {
 	
 
 	private:
-		int currentIndex;
-		int listSize;
+		static int currentIndex;
+		static int listSize;
 
 		int tempSize = tempList.size();
 
-		vector<string> list;
+		static vector<string> list;
 		vector<string> tempList;
 	
 	public:
@@ -39,6 +39,8 @@ class Commands {
 		void paste();
 
 		void savefile(fstream&);
+		
+		void displayFile(); // make into command?
 };
 
 #endif // !COMMANDS_H

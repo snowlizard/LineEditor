@@ -10,8 +10,9 @@
 
 using namespace std;
 
-// changes list but changes aren't being made to vector 
-// being sent out side of class maybe make static?
+int Commands::currentIndex = 0;
+int Commands::listSize;
+std::vector<string> Commands::list;
 
 Commands::Commands(vector<string> vec, int index)
 {
@@ -146,15 +147,13 @@ void Commands::del(int lines)
 	}
 	else
 	{
-
-		std::cout << listSize << endl;
 		for (int index = 0; index < lines; index++)
 		{
 			list.erase(list.begin() + currentIndex);
-			std::cout << list[currentIndex + index] << endl;
 		}
-
 	}
+	// update listSize
+	listSize = list.size();
 }
 
 void Commands::copy(int lines)
@@ -198,4 +197,16 @@ void Commands::paste()
 void Commands::savefile(fstream& file)
 {
 
+}
+
+void Commands::displayFile()
+{
+	// displays current contents of file
+
+	std::cout << listSize << endl;
+
+	for (int counter = 0; counter < listSize; counter++)
+	{
+		std::cout << counter << ". " << list[counter] << endl;
+	}
 }
