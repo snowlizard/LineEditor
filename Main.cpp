@@ -38,6 +38,8 @@ int main()
 	int userInt;
 
 	bool running = true;
+		
+	cin.ignore();	
 
 	while (running)
 	{
