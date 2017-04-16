@@ -14,12 +14,16 @@ int Commands::currentIndex = 0;
 int Commands::listSize;
 std::vector<string> Commands::list;
 
-Commands::Commands(vector<string> vec, int index)
+vector<string> Commands::tempList;
+int Commands::tempSize = tempList.size();
+
+Commands::Commands(vector<string> vec, int index, string filename)
 {
 	currentIndex = index;
 	list = vec;
 	listSize = vec.size();
 
+	cFile.open(filename, ios::in | ios::out);
 }
 
 
@@ -197,7 +201,8 @@ void Commands::copy(int lines)
 			tempList.push_back(temp);
 		}
 	}
-
+	// update..
+	tempSize = tempList.size();
 }
 
 
@@ -216,9 +221,13 @@ void Commands::paste()
 	currentIndex = currentIndex + i;
 }
 
-void Commands::savefile(fstream& file)
+void Commands::savefile()
 {
-
+	std::cout << "Saving File....\n";
+	for (int i = 0; i < listSize; i++)
+	{
+		cFile << list[i] << endl;
+	}
 }
 
 void Commands::displayFile()
@@ -231,9 +240,32 @@ void Commands::displayFile()
 }
 
 void Commands::quit()
-{
-	std::cout << "Exiting Program...\n";
-	exit(0);
+{	
+	char input;
+
+	std::cout << "Save Progress before exit? [ Y \\ N ]\n";
+	std::cin.get(input);
+	std::cin.ignore();
+
+	while (toupper(input) != 'Y' && toupper(input) != 'N')
+	{
+		std::cout << "save file? [ Y \\ N ] \n";
+		std::cin.get(input);
+		std::cin.ignore();
+	}
+
+	if (toupper(input) == 'Y')
+	{
+		savefile();
+		std::cout << "Exiting Program...\n";
+		exit(0);
+	}
+	
+	else
+	{
+		std::cout << "Exiting Program...\n";
+		exit(0);
+	}
 }
 
 void Commands::parseCmd(string line, string& userCmd, string& userWord, int& userInt)
@@ -332,6 +364,11 @@ void Commands::runCmd(string& userInput, string& userWord, int& userInt)
 	else if (userInput == "paste")
 	{
 		paste();
+	}
+
+	else if (userInput == "save")
+	{
+		savefile();
 	}
 
 	else if (userInput == "cat")

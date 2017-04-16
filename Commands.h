@@ -16,14 +16,16 @@ class Commands {
 		static int currentIndex;
 		static int listSize;
 
-		int tempSize = tempList.size();
+		static int tempSize;
 
 		static vector<string> list;
-		vector<string> tempList;
+		static vector<string> tempList;
+
+		fstream cFile;
 	
 	public:
 		
-		Commands::Commands( vector<string>, int );
+		Commands::Commands( vector<string>, int , string filename);
 	
 		vector<string> getList();
 
@@ -39,7 +41,7 @@ class Commands {
 		void copy( int );
 		void paste();
 
-		void savefile( fstream& );
+		void savefile( );
 		void quit();
 		
 		void displayFile(); 

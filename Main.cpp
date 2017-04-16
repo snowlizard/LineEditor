@@ -9,16 +9,11 @@
 
 #include "commands.h"
 
-
 using namespace std;
-
-void getCmd(string, string&, string&, int&);
-void runCmd(string&, string&, int&);
-
 
 bool checkExtension(string);
 fstream createFile(string);
-void getFile(fstream&);
+string getFile(fstream&);
 
 vector<string> storeFile(fstream&);
 void displayFile(vector<string>);
@@ -32,11 +27,11 @@ int main()
 	string line;
 	vector<string>fileVector;
 
-	getFile(file);
+	string filename = getFile(file);
 
 	fileVector = storeFile(file);
 	
-	Commands cmd(fileVector, 0);
+	Commands cmd(fileVector, 0, filename);
 	
 	string mycmd;
 	string userInput, userWord;
@@ -87,7 +82,7 @@ bool checkExtension(string filename)
 }
 
 
-void getFile(fstream& file)
+string getFile(fstream& file)
 {
 	/* gets file name from user and opens or creates file */
 
@@ -105,6 +100,8 @@ void getFile(fstream& file)
 	}
 
 	file.open(filename, ios::in | ios::out);
+
+	return filename;
 }
 
 
