@@ -23,7 +23,7 @@ class Commands {
 	
 	public:
 		
-		Commands::Commands(vector<string>, int);
+		Commands::Commands( vector<string>, int );
 	
 		vector<string> getList();
 
@@ -32,15 +32,22 @@ class Commands {
 		void insert( int );
 
 		void move( int );
+		void moveto( int );
 		void replace( int );
 		void del( int );
 
 		void copy( int );
 		void paste();
 
-		void savefile(fstream&);
+		void savefile( fstream& );
+		void quit();
 		
 		void displayFile(); // make into command?
+
+		void parseCmd( string, string&, string&, int& );
+		void runCmd( string&, string&, int&) ;
+
+
 };
 
 #endif // !COMMANDS_H

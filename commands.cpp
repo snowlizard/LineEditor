@@ -63,11 +63,13 @@ void Commands::type(int lines)
 	/** prints X lines before current line and prints
 	the current line last.	**/
 
+	// probably need to edit this loop
+
 	int linesToPrint = listSize - lines;
 
 	for (; linesToPrint < listSize; linesToPrint++)
 	{
-		std::cout << list[linesToPrint] << endl;
+		std::cout << linesToPrint << ". " << list[linesToPrint] << endl;
 	}
 }
 
@@ -113,6 +115,18 @@ void Commands::move(int numLines)
 
 }
 
+void Commands::moveto( int num )
+{
+	if (num < 0 || num > listSize)
+	{
+		std::cout << "Cannot Move there! Out of bounds.\n";
+	}
+	else
+	{
+		currentIndex = num;
+	}
+
+}
 
 void Commands::replace(int lines)
 {
@@ -202,11 +216,123 @@ void Commands::savefile(fstream& file)
 void Commands::displayFile()
 {
 	// displays current contents of file
-
-	std::cout << listSize << endl;
-
 	for (int counter = 0; counter < listSize; counter++)
 	{
 		std::cout << counter << ". " << list[counter] << endl;
+	}
+}
+
+void Commands::quit()
+{
+	std::cout << "Exiting Program...\n";
+	exit(0);
+}
+
+void Commands::parseCmd(string line, string& userCmd, string& userWord, int& userInt)
+{
+	/* Splits string into a word and number or word and word  */
+
+	// reset variables
+	userCmd = "";
+	userWord = "";
+	userInt = 0;
+
+
+	const int lineSize = line.length();
+	int space = 0;
+
+	string tempStr;
+	int tempInt;
+
+	char *lineArray = new char[lineSize];
+
+	for (int i = 0; i < lineSize; i++)
+	{
+		*(lineArray + i) = line[i];
+
+		// get first word
+		if (isalpha(*(lineArray + i)) && space != 1)
+		{
+			userCmd += *(lineArray + i);
+		}
+		// get number of lines
+		else if (isdigit(*(lineArray + i)) && space != 2)
+		{
+
+			tempStr += *(lineArray + i);
+		}
+
+		// get second word if number not entered
+		else if (isalpha(*(lineArray + i)) && space == 1 && space != 2)
+		{
+			userWord += *(lineArray + i);
+		}
+
+		// count spaces in string
+		else if (isspace(*(lineArray + i)))
+			space++;
+	}
+
+
+
+	tempInt = atoi(tempStr.c_str());
+	userInt = tempInt;
+
+	delete lineArray;
+	lineArray = nullptr;
+
+
+}
+
+void Commands::runCmd(string& userInput, string& userWord, int& userInt)
+{
+	// runs command functions if functions exist/match existing functions
+
+	if (userInput == "type")
+	{
+		type(userInt);
+	}
+
+	else if (userInput == "insert")
+	{
+		insert(userInt);
+	}
+	else if (userInput == "move")
+	{
+		move(userInt);
+	}
+
+	else if (userInput == "moveto")
+	{
+		moveto(userInt);
+	}
+
+	else if (userInput == "replace")
+	{
+		replace(userInt);
+	}
+	else if (userInput == "del")
+	{
+		del(userInt);
+	}
+
+	else if (userInput == "copy")
+	{
+		copy(userInt);
+	}
+
+	else if (userInput == "paste")
+	{
+		paste();
+	}
+
+	else if (userInput == "display")
+	{
+		displayFile();
+	}
+
+	else if (userInput == "quit")
+	{
+		quit();
 	}
 }
