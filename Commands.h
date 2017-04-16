@@ -42,7 +42,7 @@ class Commands {
 		void savefile( fstream& );
 		void quit();
 		
-		void displayFile(); // make into command?
+		void displayFile(); 
 
 		void parseCmd( string, string&, string&, int& );
 		void runCmd( string&, string&, int&) ;

@@ -63,13 +63,16 @@ void Commands::type(int lines)
 	/** prints X lines before current line and prints
 	the current line last.	**/
 
-	// probably need to edit this loop
-
-	int linesToPrint = listSize - lines;
-
-	for (; linesToPrint < listSize; linesToPrint++)
+	if (lines < 0 || lines > listSize)
 	{
-		std::cout << linesToPrint << ". " << list[linesToPrint] << endl;
+		std::cout << "ERROR! Out of Bounds.\n";
+	}
+	else
+	{
+		for (int i = 0; i < lines; i++)
+		{
+			std::cout << currentIndex + i << ". " << list[currentIndex + i] << endl;
+		}
 	}
 }
 
@@ -90,6 +93,10 @@ void Commands::insert(int lines)
 			list.insert( list.begin() + currentIndex + i, "" );
 
 	}
+
+	// update listSize
+	listSize = list.size();
+
 }
 
 void Commands::move(int numLines)
@@ -124,8 +131,9 @@ void Commands::moveto( int num )
 	else
 	{
 		currentIndex = num;
+		std::cout << currentIndex << ". " << list[currentIndex] << endl;
 	}
-
+	
 }
 
 void Commands::replace(int lines)
@@ -326,12 +334,12 @@ void Commands::runCmd(string& userInput, string& userWord, int& userInt)
 		paste();
 	}
 
-	else if (userInput == "display")
+	else if (userInput == "cat")
 	{
 		displayFile();
 	}
 
-	else if (userInput == "quit")
+	else if (userInput == "exit")
 	{
 		quit();
 	}
