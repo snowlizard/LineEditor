@@ -25,7 +25,7 @@ class Commands {
 	
 	public:
 		
-		Commands::Commands( vector<string>, int , string filename);
+		Commands( vector<string>, int , string filename);
 	
 		vector<string> getList();
 

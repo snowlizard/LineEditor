@@ -380,4 +380,5 @@ void Commands::runCmd(string& userInput, string& userWord, int& userInt)
 	{
 		quit();
 	}
+
 }

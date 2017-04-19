@@ -9,14 +9,14 @@
 
 #include "commands.h"
 
+
 using namespace std;
 
 bool checkExtension(string);
 fstream createFile(string);
-string getFile(fstream&);
 
+string getFile(fstream&);
 vector<string> storeFile(fstream&);
-void displayFile(vector<string>);
 
 int main()
 {
@@ -38,8 +38,8 @@ int main()
 	int userInt;
 
 	bool running = true;
-		
-	cin.ignore();	
+
+	cin.ignore();
 
 	while (running)
 	{
@@ -48,7 +48,6 @@ int main()
 
 		cmd.parseCmd(mycmd, userInput, userWord, userInt);
 		cmd.runCmd(userInput, userWord, userInt);
-
 	}
 	return 0;
 }
@@ -88,20 +87,49 @@ string getFile(fstream& file)
 {
 	/* gets file name from user and opens or creates file */
 
+	// have to ask user to create or open file
+
 	string filename;
+	char input;
 
-	std::cout << "Enter the name of the file you want to open.\n";
-	std::cout << "if the file does not exist it will be created.\n";
+	std::cout << " Would you like to open a file or create a new one? [ O / C ] \n";
+	std::cin.get(input);
+	std::cin.ignore();
 
-	std::cin >> filename;
-
-	while (!checkExtension(filename))
+	while (toupper(input) != 'O' && toupper(input) != 'C')
 	{
-		std::cout << "filename must end in file extension .txt\n";
-		std::cin >> filename;
+		std::cout << "Please enter either [ O or C ] \n";
+		std::cin.get(input);
+		std::cin.ignore();
 	}
 
-	file.open(filename, ios::in | ios::out);
+	if ( toupper(input) == 'O' )
+	{
+		std::cout << "Enter the name of the file you wish to open.\n";
+		std::cin >> filename;
+
+		while (!checkExtension(filename))
+		{
+			std::cout << "filename must end in file extension .txt\n";
+			std::cin >> filename;
+		}
+
+		file.open(filename, ios::in | ios::out);
+	}
+
+	else if ( toupper(input) == 'C' )
+	{
+		std::cout << "Enter the name of the file you wish to create.\n";
+		std::cin >> filename;
+
+		while (!checkExtension(filename))
+		{
+			std::cout << "filename must end in extension .txt\n";
+			std::cin >> filename;
+		}
+
+		file.open(filename, ios::in | ios::out | ios::trunc);
+	}
 
 	return filename;
 }
@@ -130,16 +158,3 @@ vector<string> storeFile(fstream &filename)
 }
 
 
-void displayFile(vector<string> file)
-{
-	// displays current contents of file
-
-	int fileSize = file.size();
-	int counter = 0;
-
-	while (counter < fileSize)
-	{
-		std::cout << counter << ". " <<  file[counter] << endl;
-		counter++;
-	}
-}
