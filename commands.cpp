@@ -145,6 +145,8 @@ void Commands::replace(int lines)
 	/* Replaces the next X lines including current line
 	with empty lines. */
 
+	string userInput;
+
 	int newIndex = currentIndex + lines;
 
 	if (newIndex < 0 || newIndex > listSize)
@@ -154,9 +156,14 @@ void Commands::replace(int lines)
 
 	else
 	{
+		std::cout << "Enter text for lines you wish to replace.\n";
+
 		for (int index = 0; index < lines; index++)
 		{
-			list[currentIndex + index] = " ";
+			std::cout << currentIndex + index << ". ";
+			getline(cin, userInput);
+
+			list[currentIndex + index] = userInput;
 		}
 
 	}
@@ -223,6 +230,9 @@ void Commands::paste()
 
 void Commands::savefile()
 {
+	/* Save changes made to file from list vector */
+
+	// BUG! everytime you save file its adding one empty line to add of file.
 	std::cout << "Saving File....\n";
 	for (int i = 0; i < listSize; i++)
 	{
