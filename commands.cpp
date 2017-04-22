@@ -23,7 +23,8 @@ Commands::Commands(vector<string> vec, int index, string filename)
 	list = vec;
 	listSize = vec.size();
 
-	cFile.open(filename, ios::in | ios::out);
+	Commands::filename = filename;
+	
 }
 
 
@@ -75,7 +76,12 @@ void Commands::type(int lines)
 	{
 		for (int i = 0; i < lines; i++)
 		{
-			std::cout << currentIndex + i << ". " << list[currentIndex + i] << endl;
+			if (i + currentIndex > listSize - 1)
+			{
+				std::cout << "Out of Bounds.\n";
+			}
+			else
+				std::cout << currentIndex + i << ". " << list[currentIndex + i] << endl;
 		}
 	}
 }
@@ -128,7 +134,7 @@ void Commands::move(int numLines)
 
 void Commands::moveto( int num )
 {
-	if (num < 0 || num > listSize)
+	if (num < 0 || num > listSize -1)
 	{
 		std::cout << "Cannot Move there! Out of bounds.\n";
 	}
@@ -160,10 +166,17 @@ void Commands::replace(int lines)
 
 		for (int index = 0; index < lines; index++)
 		{
-			std::cout << currentIndex + index << ". ";
-			getline(cin, userInput);
+			if (index + currentIndex > listSize - 1)
+			{
+				std::cout << "Out of Bounds.\n";
+			}
+			else
+			{
+				std::cout << currentIndex + index << ". ";
+				getline(cin, userInput);
 
-			list[currentIndex + index] = userInput;
+				list[currentIndex + index] = userInput;
+			}
 		}
 
 	}
@@ -173,16 +186,23 @@ void Commands::del(int lines)
 {
 	/* Deletes X lines including the current line. */
 
-	if (currentIndex < 0 || currentIndex > listSize)
+	if ( lines < 0 || lines + currentIndex > listSize)
 	{
-		std::cout << currentIndex << endl << listSize << endl;
 		std::cout << "ERROR! Index out of bounds, No changes were made.\n";
 	}
 	else
 	{
 		for (int index = 0; index < lines; index++)
 		{
-			list.erase(list.begin() + currentIndex);
+			if (lines + currentIndex > listSize - 1)
+			{
+				std::cout << "Out of Bounds! No changes were made.\n";
+			}
+			else
+			{
+				list.erase(list.begin() + currentIndex + 1 );
+			}
+			
 		}
 	}
 	// update listSize
@@ -193,19 +213,27 @@ void Commands::copy(int lines)
 {	
 	/* Copy X next lines to temporary list */
 
-	// if tempList is not empty, erase its contents
-	if ( !tempList.empty() )
+	// erase its contents
+	tempList.clear();
+
+	if (lines < 0 || currentIndex + lines > listSize )
 	{
-		tempList.clear();
+		std::cout << " Index out of Bounds.\n";
 	}
 
 	else
 	{
 		for (int i = 0; i < lines; i++)
 		{
-			
-			string temp = list[currentIndex + i];
-			tempList.push_back(temp);
+			if (currentIndex + i > listSize)
+			{
+				// ignore
+			}
+			else
+			{
+				string temp = list[currentIndex + i];
+				tempList.push_back(temp);
+			}
 		}
 	}
 	// update..
@@ -232,12 +260,16 @@ void Commands::savefile()
 {
 	/* Save changes made to file from list vector */
 
-	// BUG! everytime you save file its adding one empty line to add of file.
+	cFile.open(filename,  ios::out | ios::trunc);
+	
 	std::cout << "Saving File....\n";
-	for (int i = 0; i < listSize; i++)
+
+	for (int i = 0; i < listSize -1; i++)
 	{
 		cFile << list[i] << endl;
+		
 	}
+
 }
 
 void Commands::displayFile()
@@ -268,14 +300,17 @@ void Commands::quit()
 	{
 		savefile();
 		std::cout << "Exiting Program...\n";
+		cFile.close();
 		exit(0);
 	}
 	
 	else
 	{
 		std::cout << "Exiting Program...\n";
+		cFile.close();
 		exit(0);
 	}
+
 }
 
 void Commands::parseCmd(string line, string& userCmd, string& userWord, int& userInt)

@@ -21,6 +21,7 @@ class Commands {
 		static vector<string> list;
 		static vector<string> tempList;
 
+		string filename;
 		fstream cFile;
 	
 	public:
