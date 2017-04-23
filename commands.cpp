@@ -236,6 +236,7 @@ void Commands::copy(int lines)
 			}
 		}
 	}
+	
 	// update..
 	tempSize = tempList.size();
 }
@@ -250,9 +251,16 @@ void Commands::paste()
 
 	for ( ; i < tempSize; i++ )
 	{
-		list.insert( list.begin() + currentIndex + i, tempList[i] );
+		if (currentIndex + i > listSize - 1)
+		{
+			// do nothing
+		}
+		else
+			list.insert(list.begin() + currentIndex + i, tempList[i]);
+			//list[currentIndex + i] = tempList[i];
 	}
-
+	
+	listSize = list.size();
 	currentIndex = currentIndex + i;
 }
 
@@ -293,7 +301,6 @@ void Commands::quit()
 	{
 		std::cout << "save file? [ Y \\ N ] \n";
 		std::cin.get(input);
-		std::cin.ignore();
 	}
 
 	if (toupper(input) == 'Y')
@@ -424,6 +431,56 @@ void Commands::runCmd(string& userInput, string& userWord, int& userInt)
 	else if (userInput == "exit")
 	{
 		quit();
+	}
+
+	else if (userInput == "man" && userWord == "")
+	{
+		std::cout << "Line Editor Manual\n";
+		std::cout << "use the man command followed by a command to read about it.\n";
+		std::cout << "ex: man sub \n";
+		std::cout << "===== List of Commands =====\n";
+		std::cout << " type\n";
+		std::cout << " insert\n";
+		std::cout << " copy\n";
+		std::cout << " paste\n";
+		std::cout << " move\n";
+		std::cout << " moveto\n";
+		std::cout << " cat\n";
+		std::cout << " replace\n";
+		std::cout << " save\n";
+		std::cout << " exit\n";
+		std::cout << " del\n";
+		std::cout << " sub\n";
+		std::cout << " find\n";
+	}
+	
+	
+	else if (userInput == "man" && userWord == "type")
+	{
+		std::cout << "type #\n";
+		std::cout << "Prints the contents of the # lines, including current line.\n";
+		std::cout << "ex: type 5 ; prints out 5 lines including current line.\n";
+	}
+
+	else if (userInput == "man" && userWord == "insert")
+	{
+		std::cout << "insert #\n";
+		std::cout << "insert # lines into the file following the current line\n";
+		std::cout << "ex: insert 10 ; inserts 10 lines\n";
+	}
+
+	else if (userInput == "man" && userWord == "copy")
+	{
+		std::cout << "copy #\n";
+		std::cout << "copies the next # lines including the current line.\n";
+		std::cout << "ex: copy 5 ; copies 4 lines plus the current one for 5 total lines.\n";
+	}
+
+	else if (userInput == "man" && userWord == "paste")
+	{
+		std::cout << "paste\n";
+		std::cout << "paste the contents of copy between the current line and the following line.\n";
+		std::cout << "ex: paste \n";
 	}
 
 }
