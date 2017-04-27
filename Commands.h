@@ -45,7 +45,8 @@ class Commands {
 		void savefile( );
 		void quit();
 		
-		void displayFile(); 
+		void displayFile();
+		void clear();
 
 		void parseCmd( string, string&, string&, int& );
 		void runCmd( string&, string&, int&) ;
