@@ -282,15 +282,22 @@ void Commands::savefile()
 
 void Commands::displayFile()
 {
-	// displays current contents of file
+	// displays current contents of list
 	for (int counter = 0; counter < listSize; counter++)
 	{
 		std::cout << counter << ". " << list[counter] << endl;
 	}
 }
 
+void Commands::clear()
+{
+	cout << string(40, '\n');
+}
+
 void Commands::quit()
 {	
+	/* Asks user if he/she wishes to  quit the program */
+	
 	char input;
 
 	std::cout << "Save Progress before exit? [ Y \\ N ]\n";
@@ -428,6 +435,11 @@ void Commands::runCmd(string& userInput, string& userWord, int& userInt)
 		displayFile();
 	}
 
+	else if (userInput == "clear")
+	{
+		clear();
+	}
+
 	else if (userInput == "exit")
 	{
 		quit();
@@ -450,6 +462,7 @@ void Commands::runCmd(string& userInput, string& userWord, int& userInt)
 		std::cout << " save\n";
 		std::cout << " exit\n";
 		std::cout << " del\n";
+		std::cout << " clear\n";
 		std::cout << " sub\n";
 		std::cout << " find\n";
 	}
@@ -459,21 +472,21 @@ void Commands::runCmd(string& userInput, string& userWord, int& userInt)
 	{
 		std::cout << "type #\n";
 		std::cout << "Prints the contents of the # lines, including current line.\n";
-		std::cout << "ex: type 5 ; prints out 5 lines including current line.\n";
+		std::cout << "ex: type 5 - prints out 5 lines including current line.\n";
 	}
 
 	else if (userInput == "man" && userWord == "insert")
 	{
 		std::cout << "insert #\n";
 		std::cout << "insert # lines into the file following the current line\n";
-		std::cout << "ex: insert 10 ; inserts 10 lines\n";
+		std::cout << "ex: insert 10 - inserts 10 lines\n";
 	}
 
 	else if (userInput == "man" && userWord == "copy")
 	{
 		std::cout << "copy #\n";
 		std::cout << "copies the next # lines including the current line.\n";
-		std::cout << "ex: copy 5 ; copies 4 lines plus the current one for 5 total lines.\n";
+		std::cout << "ex: copy 5 - copies 4 lines plus the current one for 5 total lines.\n";
 	}
 
 	else if (userInput == "man" && userWord == "paste")
@@ -483,4 +496,68 @@ void Commands::runCmd(string& userInput, string& userWord, int& userInt)
 		std::cout << "ex: paste \n";
 	}
 
+	else if (userInput == "man" && userWord == "move")
+	{
+		std::cout << "move #\n";
+		std::cout << "move and print # lines down.\n";
+		std::cout << "move 5 - moves 5 lines down and prints 5 lines.\n";
+	}
+
+	else if (userInput == "man" && userWord == "moveto")
+	{
+		std::cout << "moveto #\n";
+		std::cout << "move to # line and print that line.\n";
+		std::cout << "ex: moveto 3 - moves to line 3 in file.\n";
+	}
+
+	else if (userInput == "man" && userWord == "cat")
+	{
+		std::cout << "cat\n";
+		std::cout << "displays the contents of the files modified state.\n";
+	}
+
+	else if (userInput == "man" && userWord == "replace")
+	{
+		std::cout << "replace #\n";
+		std::cout << "replace the next # lines, including the currentline.\n";
+		std::cout << "ex: replace 5 - replaces 5 lines with text ( user input )\n";
+	}
+
+	else if (userInput == "man" && userWord == "save")
+	{
+		std::cout << "save\n";
+		std::cout << "saves changes made to file.\n";
+	}
+
+	else if (userInput == "man" && userWord == "exit")
+	{
+		std::cout << "exit\n";
+		std::cout << "exits the line editor program.\n";
+	}
+
+	else if (userInput == "man" && userWord == "del")
+	{
+		std::cout << "del #\n";
+		std::cout << "deletes the next # lines, including the current line.\n";
+		std::cout << "ex: del 10\n";
+	}
+
+	else if (userInput == "man" && userWord == "sub")
+	{
+		std::cout << "sub\n";
+	}
+
+	else if (userInput == "man" && userWord == "clear")
+	{
+		std::cout << "clear\n";
+		std::cout << "clears the screen.\n";
+	}
+
+	else if (userInput == "man" && userWord == "find")
+	{
+		std::cout << "find string\n";
+		std::cout << "finds the next occurence of 'string' and makes the line\n";
+		std::cout << "containing it the current line.\n";
+		std::cout << "ex: find waldo\n";
+	}
 }
