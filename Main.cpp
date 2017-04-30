@@ -13,7 +13,6 @@
 using namespace std;
 
 bool checkExtension(string);
-fstream createFile(string);
 
 string getFile(fstream&);
 vector<string> storeFile(fstream&);
@@ -34,7 +33,7 @@ int main()
 	Commands cmd(fileVector, 0, filename);
 	
 	string mycmd;
-	string userInput, userWord;
+	string userInput, userWord, subWord;
 	int userInt;
 
 	bool running = true;
@@ -46,9 +45,12 @@ int main()
 		std::cout << ">";
 		getline(cin, mycmd);
 
-		cmd.parseCmd(mycmd, userInput, userWord, userInt);
-		cmd.runCmd(userInput, userWord, userInt);
+		cmd.parseCmd(mycmd, userInput, userWord, subWord, userInt);
+		cmd.runCmd(userInput, userWord, subWord, userInt);
+
+
 	}
+
 	return 0;
 }
 
@@ -113,8 +115,26 @@ string getFile(fstream& file)
 			std::cout << "filename must end in file extension .txt\n";
 			std::cin >> filename;
 		}
-
+		//try to open file
 		file.open(filename, ios::in | ios::out);
+		// if file does not exist prompt user for a file that does.\n
+		while(!file.is_open())
+		{
+			std::cout << "file does not exist.\n";
+			std::cout << "Enter the name of the file you wish to open.\n";
+			std::cin >> filename;
+
+			while (!checkExtension(filename))
+			{
+				std::cout << "filename must end in file extension .txt\n";
+				std::cin >> filename;
+			}
+
+			file.open(filename, ios::in | ios::out);
+
+		}
+
+		
 	}
 
 	else if ( toupper(input) == 'C' )

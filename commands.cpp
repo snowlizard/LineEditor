@@ -40,8 +40,12 @@ void Commands::findStr( string word )
 	// as locating a word 
 
 	int wordCount = 0;
+	int ed;
 
-	for (int index = 0; index < listSize ; index++)
+
+	int index = currentIndex;
+
+	for (; index < listSize ; index++)
 	{
 		string tempStr = list[index].c_str();
 		int strSize = tempStr.length();
@@ -50,17 +54,51 @@ void Commands::findStr( string word )
 
 		pos = tempStr.find(word);
 
+		
 		for (int key = 0; key < strSize; key++)
 		{
+
 			if (pos != std::string::npos) {
 				wordCount += 1;
 				pos = tempStr.find(word, pos + 1);
+				if (wordCount == 1)
+					ed = index;
+				
 			}
 
 		}
+	
 	}
+	if (wordCount == 0)
+	{
+		std::cout << word << "could not be found.\n";
+	}
+	else
+	{
+		std::cout << word << " found in  line " << ed << endl;
+		currentIndex = ed;
+	}
+}
 
-	std::cout << wordCount << word << endl;
+void Commands::sub( string oldStr, string newStr)
+{
+	string currentLine = list[currentIndex];
+
+	int lineSize = currentLine.length();
+	int pos = 0;
+	int oldLen = oldStr.length();
+
+	for (int counter = 0; counter < lineSize; counter++)
+	{
+		pos = currentLine.find(oldStr);
+
+		if (pos != std::string::npos)
+		{
+			currentLine.replace(pos,oldLen, newStr );
+			pos = currentLine.find( oldStr, pos + 1);
+		}
+	}
+	std::cout << oldStr << " " << newStr << endl;
 }
 
 void Commands::type(int lines)
@@ -277,7 +315,7 @@ void Commands::savefile()
 		cFile << list[i] << endl;
 		
 	}
-
+	cFile.close();
 }
 
 void Commands::displayFile()
@@ -327,15 +365,16 @@ void Commands::quit()
 
 }
 
-void Commands::parseCmd(string line, string& userCmd, string& userWord, int& userInt)
+void Commands::parseCmd(string line, string& userCmd, string& userWord, string& subWord, int& userInt)
 {
 	/* Splits string into a word and number or word and word  */
 
 	// reset variables
-	userCmd = "";
+	userCmd  = "";
 	userWord = "";
-	userInt = 0;
-
+	subWord  = "";
+	userInt  = 0;
+	
 
 	const int lineSize = line.length();
 	int space = 0;
@@ -367,11 +406,18 @@ void Commands::parseCmd(string line, string& userCmd, string& userWord, int& use
 			userWord += *(lineArray + i);
 		}
 
+		// get third word for sub() // not working right now trying to fix
+		else if (isalpha(*(lineArray + i))  )
+		{
+			subWord += *(lineArray + i);
+			std::cout << "this parsed" << endl;
+		}
+
+
 		// count spaces in string
 		else if (isspace(*(lineArray + i)))
 			space++;
 	}
-
 
 
 	tempInt = atoi(tempStr.c_str());
@@ -383,7 +429,7 @@ void Commands::parseCmd(string line, string& userCmd, string& userWord, int& use
 
 }
 
-void Commands::runCmd(string& userInput, string& userWord, int& userInt)
+void Commands::runCmd(string& userInput, string& userWord, string& subWord, int& userInt)
 {
 	// runs command functions if functions exist/match existing functions
 
@@ -445,6 +491,19 @@ void Commands::runCmd(string& userInput, string& userWord, int& userInt)
 		quit();
 	}
 
+	else if (userInput == "find")
+	{
+		findStr(userWord);
+	}
+
+	else if (userInput == "sub")
+	{
+		sub(userWord, subWord);
+
+	}
+
+	/*-------------  MANUAL PAGES ---------------*/
+	
 	else if (userInput == "man" && userWord == "")
 	{
 		std::cout << "Line Editor Manual\n";

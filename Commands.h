@@ -48,8 +48,10 @@ class Commands {
 		void displayFile();
 		void clear();
 
-		void parseCmd( string, string&, string&, int& );
-		void runCmd( string&, string&, int&) ;
+		void sub( string , string );
+
+		void parseCmd( string, string&, string&, string&, int& );
+		void runCmd( string&, string&, string&, int&) ;
 
 
 };
