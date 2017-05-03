@@ -88,17 +88,30 @@ void Commands::sub( string oldStr, string newStr)
 	int pos = 0;
 	int oldLen = oldStr.length();
 
+	int foundWord = 0;
+
 	for (int counter = 0; counter < lineSize; counter++)
 	{
 		pos = currentLine.find(oldStr);
 
 		if (pos != std::string::npos)
 		{
-			currentLine.replace(pos,oldLen, newStr );
-			pos = currentLine.find( oldStr, pos + 1);
+			currentLine.replace(pos, oldLen, newStr);
+			pos = currentLine.find(oldStr, pos + 1);
+			foundWord += 1;		
 		}
 	}
-	std::cout << oldStr << " " << newStr << endl;
+
+
+	if (foundWord >= 1)
+	{
+		// update with replaced word(s)
+		list[currentIndex] = currentLine;
+	}
+	else
+		std::cout << "Match not found.\n";
+		
+
 }
 
 void Commands::type(int lines)
@@ -389,12 +402,12 @@ void Commands::parseCmd(string line, string& userCmd, string& userWord, string& 
 		*(lineArray + i) = line[i];
 
 		// get first word
-		if (isalpha(*(lineArray + i)) && space != 1)
+		if (isalpha(*(lineArray + i)) && space == 0)
 		{
 			userCmd += *(lineArray + i);
 		}
 		// get number of lines
-		else if (isdigit(*(lineArray + i)) && space != 2)
+		else if (isdigit(*(lineArray + i)) && space == 1)
 		{
 
 			tempStr += *(lineArray + i);
@@ -407,15 +420,14 @@ void Commands::parseCmd(string line, string& userCmd, string& userWord, string& 
 		}
 
 		// get third word for sub() // not working right now trying to fix
-		else if (isalpha(*(lineArray + i))  )
+		else if (isalpha(*(lineArray + i)) && space == 2 && space != 3  )
 		{
 			subWord += *(lineArray + i);
-			std::cout << "this parsed" << endl;
 		}
 
 
 		// count spaces in string
-		else if (isspace(*(lineArray + i)))
+		else if (isspace(*(lineArray + i)) )
 			space++;
 	}
 
@@ -601,11 +613,6 @@ void Commands::runCmd(string& userInput, string& userWord, string& subWord, int&
 		std::cout << "ex: del 10\n";
 	}
 
-	else if (userInput == "man" && userWord == "sub")
-	{
-		std::cout << "sub\n";
-	}
-
 	else if (userInput == "man" && userWord == "clear")
 	{
 		std::cout << "clear\n";
@@ -618,5 +625,12 @@ void Commands::runCmd(string& userInput, string& userWord, string& subWord, int&
 		std::cout << "finds the next occurence of 'string' and makes the line\n";
 		std::cout << "containing it the current line.\n";
 		std::cout << "ex: find waldo\n";
+	}
+
+	else if (userInput == "man" && userWord == "sub")
+	{
+		std::cout << "sub oldString newString\n";
+		std::cout << "replaces every occurence of oldstring in the currentline with newstring.\n";
+		std::cout << "ex: sub cat dog   - replaces cat with dog in the current line.\n";
 	}
 }
